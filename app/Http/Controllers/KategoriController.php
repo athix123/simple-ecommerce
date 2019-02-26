@@ -40,12 +40,14 @@ class KategoriController extends Controller
 	}
 
 	public function getByProduk($id) {
+		// $produk = Produk::orderBy('created_at', 'desc')->take(5)->get();
 
 		$data = Kategori::join('produk','kategori.id','=','produk.id_kategori')
 				->where('kategori.id', $id)
 				->select('produk.*',
 						'kategori.kategori as Kategori'
 						)
+				->orderBy('created_at', 'desc')->take(10)
 				->get();
 
 			return response()->json($data);

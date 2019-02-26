@@ -14,7 +14,8 @@ class ArtikelController extends Controller
 
     public function get(Request $request) {
         
-        $artikel = Artikel::all();
+        $artikel = Artikel::orderBy('id', 'desc')
+                    ->get();
         
         return response()->json($artikel);
     }
@@ -115,6 +116,62 @@ class ArtikelController extends Controller
             
             return response()->json($response, 404);
         }
+    }
+
+    public function postGambar(Request $request) {
+
+        if ($request->hasFile('gambar')) {
+
+            $gambar = $request->file('gambar');
+            $fileName = str_random(15).'.'.$gambar->getClientOriginalExtension();
+            $path = 'images/';
+            $gambar->move($path, $fileName);
+            
+            $response = [
+            'status' => 'Success',
+            'messages' => 'File uploaded',
+            'url' => url().'/'.$path.$fileName,
+            ];
+
+            return response()->json($response, 200); 
+        } 
+    
+    }
+
+    public function updatefile(Request $request, $id) {
+
+        $founder = Founder::find($id);
+
+        if ($founder == null) {
+
+            $response = [
+            'status' => 'Forbidden',
+            'messages' => 'Id is not exist',
+            ];
+            
+            return response()->json($response, 403);
+
+        } elseif ($request->hasFile('file')) {
+
+            $gambar = $request->file('file');
+            $fileName = str_random(15).'.'.$gambar->getClientOriginalExtension();
+            $path = 'images/';
+            $gambar->move($path, $fileName);
+        
+            File::delete($founder->file); 
+            
+            $founder->file = $path . $fileName;
+
+            $response = [
+            'status' => 'Success',
+            'messages' => 'File uploaded',
+            'url' => url().'/'.$path.$fileName,
+            ];
+        } 
+    
+        $founder->save();
+    
+        return response()->json($response, 200); 
     }
 }
 

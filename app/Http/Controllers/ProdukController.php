@@ -25,7 +25,8 @@ class ProdukController extends Controller
 			# code...
 		} else {
 			# code...
-			$produk = Produk::orderBy('created_at', 'desc')->take(10)->get();
+			// $produk = Produk::orderBy('created_at', 'desc')->take(10)->get();
+			$produk = Produk::all();
 		}
 		
 		return response()->json($produk);
@@ -53,7 +54,7 @@ class ProdukController extends Controller
 			$produk->harga = $request->input('harga');
 			$produk->gambar = $request->input('gambar');
 			$produk->deskripsi = $request->input('deskripsi');
-			$produk->id_kategori = $request->input('id_kategori');
+			$produk->id_kategori = $request->input('kategori');
 			$produk->save();
 			
 			$response = [
@@ -93,7 +94,7 @@ class ProdukController extends Controller
 				$produk->harga = $request->input('harga');
 				$produk->gambar = $request->input('gambar');
 				$produk->deskripsi = $request->input('deskripsi');
-				$produk->id_kategori = $request->input('id_kategori');
+				$produk->id_kategori = $request->input('kategori');
 				$produk->save();
 			
 				$response['status'] = 'Success';

@@ -19,6 +19,8 @@ $router->get('/', function () use ($router) {
 $router->post('/v1/register', 'PenggunaController@register');
 $router->post('/v1/login', 'PenggunaController@login');
 
+$router->post('/v1/artikel/gambar', 'ArtikelController@postGambar');
+
 $router->get('/v1/tentang', 'TentangController@get');
 $router->post('/v1/tentang', 'TentangController@create');
 $router->put('/v1/tentang/{id}', 'TentangController@update');
