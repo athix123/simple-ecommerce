@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
-use App\User;
+use App\Pengguna;
 
 class Authenticate
 {
@@ -40,7 +40,7 @@ class Authenticate
             $token = $request->header('token');
             if ($token) {
                 $token = $request->header('token');
-                $check_token = User::where('token', $token)->first();
+                $check_token = Pengguna::where('token', $token)->first();
                 if ($check_token == null) {
                     $res['success'] = false;
                     $res['message'] = 'Permission not allowed!';
